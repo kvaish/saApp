@@ -1,0 +1,74 @@
+<ion-menu [content]="content" (ionOpen)="menuOpened()" (ionClose)="menuClosed()">
+ 
+<!-- The side menu title -->
+  <ion-header>
+    <ion-toolbar color="dark">
+      <ion-title>Menu</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content>
+    <ion-list>
+      <!-- remember the `this.pages` object we created in `app.js`?
+      // Iterate through, then when clicked, run the associated function
+      // passing in the #p item.
+      // changed #p to let p instead -->
+      <button ion-item *ngFor="let p of pages" (click)="openPage(p)">
+        {{p.title}}
+      </button>
+    </ion-list>
+  </ion-content>
+ 
+</ion-menu>
+<!-- What's my root? remember the this.rootPage?-->
+<ion-nav id="nav" [root]="rootPage" #content swipe-back-enabled="false"></ion-nav>
+
+
+<ion-header>
+  <ion-navbar>
+    <ion-buttons start>
+      <button ion-button icon-only menuToggle>
+        <ion-icon name="menu"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-title>
+      Home Page
+    </ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="logout()">
+        <ion-icon name="log-out"></ion-icon>
+      </button>
+    </ion-buttons>
+    
+    
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <div>
+    <ion-segment [(ngModel)]="view">
+      <ion-segment-button value="card">
+        Card View
+      </ion-segment-button>
+      <ion-segment-button value="map">
+        Map View
+      </ion-segment-button>
+    </ion-segment>
+  </div>
+
+  <div [ngSwitch]="view">
+    <ion-list *ngSwitchCase="'card'">
+      <ion-item>
+        <ion-thumbnail item-start>
+          <img src="img/thumbnail-puppy-1.jpg">
+        </ion-thumbnail>
+        <h2>Ruby</h2>
+      </ion-item>
+      
+    </ion-list>
+
+    <ion-list *ngSwitchCase="'map'">
+      
+      
+    </ion-list>
+  </div>
+</ion-content>
