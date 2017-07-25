@@ -1,0 +1,59 @@
+<!--
+  Generated template for the LoginPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-content class="login-content" padding>
+  <!--<ion-row class="logo-row">
+    <ion-col></ion-col>
+    <ion-col width-67>
+      <img src=""/>
+    </ion-col>
+    <ion-col></ion-col>
+  </ion-row>-->
+  <ion-card>
+    <ion-card-header class="card-header">
+    <ion-title>
+      Login
+    </ion-title>
+      
+    </ion-card-header>
+  <div class="login-box">
+    <form #registerForm="ngForm">
+      <ion-row>
+        <ion-col>
+          <ion-list inset>
+            
+            <ion-item>
+              <ion-label floating>Username</ion-label>
+              <ion-input type="email"   name="email" [(ngModel)]="email" required></ion-input>
+            </ion-item>
+            
+            <ion-item>
+              <ion-label floating>Password</ion-label>
+              <ion-input type="password"  name="password" [(ngModel)]="password" required></ion-input>
+            </ion-item>
+            
+          </ion-list>
+        </ion-col>
+      </ion-row>
+       <ion-row>
+        <ion-col class="signup-col">
+          <ion-buttons start>
+            <button ion-button class="register-btn"  type="button" clear (click)="createAccount()">Create New Account</button>
+          </ion-buttons>
+        </ion-col>
+          <ion-buttons end>
+            <button ion-button icon-only round large clear type="submit"  [disabled]="!registerForm.form.valid" (click)="login()">
+              <ion-icon name="md-log-in"></ion-icon>
+            </button>
+          </ion-buttons>
+          
+          
+        
+      </ion-row>
+    </form>
+  </div>
+  </ion-card>
+</ion-content>

@@ -1,3 +1,31 @@
 page-home {
-
+    ion-row{
+        justify-content: center !important;
+    }
+    .card{
+        box-shadow: 0 10px 10px 0 gray;
+    }
+    .card-header{
+        background-color: #1fb5bf;
+        padding: 12px;
+    }
+    .item-button{
+        padding: 20px 10px 20px 10px !important;
+        float:right;
+    }
+    .details-header{
+        font-size:20px;
+        color: white;
+        text-align: center;
+        font-weight: bold;
+    }
+    .alert-head {
+    background-color: black !important;
+    }
+    .request-title{
+        background-color: blue !important;
+    }
+    ion-card{
+        margin-bottom: 20px !important;
+    }
 }

@@ -56,18 +56,34 @@
   </div>
 
   <div [ngSwitch]="view">
-    <ion-list *ngSwitchCase="'card'">
-      <ion-item>
-        <ion-thumbnail item-start>
-          <img src="img/thumbnail-puppy-1.jpg">
-        </ion-thumbnail>
-        <h2>Ruby</h2>
-      </ion-item>
+    <ion-list *ngSwitchCase="'card'" item-content>
+      <ion-card *ngFor="let request of requests ">
+        <img src="../../assets/images/map.png">
+        <ion-item>
+          <ion-icon name="calendar" item-left large ></ion-icon>
+          <h2>{{request.date}}</h2>
+          <p>{{request.status}}</p>
+          <button ion-button icon-left clear item-end (click)="editRequest(request)">
+            <!--<ion-icon name="navigate"></ion-icon>-->
+            Reject
+          </button>
+        </ion-item>
+        <ion-item>
+            <ion-icon name="person" item-left large ></ion-icon>
+            <h2>{{request.clientid}}</h2>
+            <p>{{request.addressString}}</p>
+            <button ion-button icon-left clear item-end (click)="showRequestDetails(request)">
+              <ion-icon name="navigate"></ion-icon>
+              View
+            </button>
+        </ion-item>
+
+      </ion-card>
       
     </ion-list>
 
     <ion-list *ngSwitchCase="'map'">
-      
+      <div #map id="map"></div>
       
     </ion-list>
   </div>
