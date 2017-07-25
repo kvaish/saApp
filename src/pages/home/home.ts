@@ -12,6 +12,7 @@ import { MapServiceProvider } from '../../providers/map-service/map-service';
 import { GoogleMap } from '@ionic-native/google-maps';
 import { RequestsProvider } from '../../providers/requests/requests';
 import { GeocoderServiceProvider } from '../../providers/geocoder-service/geocoder-service';
+import { LocationTrackerProvider } from '../../providers/location-tracker/location-tracker';
 
 @IonicPage() 
 
@@ -29,7 +30,7 @@ export class HomePage {
   pages: Array<{title: string, component: any}>
   map: GoogleMap;
   requests: Array<{any}>;
-  constructor( private geocoder: GeocoderServiceProvider, private requestProvider: RequestsProvider, private mapService: MapServiceProvider, private viewCtrl: ViewController, private diagnostic: Diagnostic, private locationAccuracy: LocationAccuracy, private storage:Storage, private modalCtrl:ModalController, private toaster: ToastController, private alertCtrl: AlertController, private splashScreen: SplashScreen, private statusBar: StatusBar, private nav: NavController, private auth: AuthServiceProvider, private menu: MenuController, private platform: Platform) {}
+  constructor( private locationTrack: LocationTrackerProvider, private geocoder: GeocoderServiceProvider, private requestProvider: RequestsProvider, private mapService: MapServiceProvider, private viewCtrl: ViewController, private diagnostic: Diagnostic, private locationAccuracy: LocationAccuracy, private storage:Storage, private modalCtrl:ModalController, private toaster: ToastController, private alertCtrl: AlertController, private splashScreen: SplashScreen, private statusBar: StatusBar, private nav: NavController, private auth: AuthServiceProvider, private menu: MenuController, private platform: Platform) {}
 
 
   ngOnInit() {
@@ -135,4 +136,11 @@ export class HomePage {
 
   }
   
+  start(){
+    this.locationTrack.startTracking();
+  }
+ 
+  stop(){
+    this.locationTrack.stopTracking();
+  }
 }

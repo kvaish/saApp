@@ -9,6 +9,7 @@ import { Diagnostic } from '@ionic-native/diagnostic';
 import { LocationAccuracy } from '@ionic-native/location-accuracy';
 import { GoogleMaps} from '@ionic-native/google-maps';
 import { BackgroundGeolocation } from '@ionic-native/background-geolocation';
+import { Geolocation } from '@ionic-native/geolocation';
  
 import { MyApp } from './app.component';
 //import { HomePage } from '../pages/home/home';
@@ -17,6 +18,7 @@ import { MapServiceProvider } from '../providers/map-service/map-service';
 import { GeocoderServiceProvider } from '../providers/geocoder-service/geocoder-service';
 
 import { RequestsProvider } from '../providers/requests/requests';
+import { LocationTrackerProvider } from '../providers/location-tracker/location-tracker';
 
 @NgModule({
   declarations: [
@@ -46,7 +48,9 @@ import { RequestsProvider } from '../providers/requests/requests';
     LocationAccuracy,
     GoogleMaps,
     RequestsProvider,
-    BackgroundGeolocation
+    BackgroundGeolocation,
+    Geolocation,
+    LocationTrackerProvider
   ]
 })
 export class AppModule {}

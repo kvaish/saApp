@@ -23,6 +23,7 @@
         "@ionic-native/background-geolocation": "^3.14.0",
         "@ionic-native/core": "3.10.2",
         "@ionic-native/diagnostic": "^3.14.0",
+        "@ionic-native/geolocation": "^4.1.0",
         "@ionic-native/google-maps": "^3.14.0",
         "@ionic-native/location-accuracy": "^3.13.0",
         "@ionic-native/native-geocoder": "^3.13.0",
@@ -30,8 +31,10 @@
         "@ionic-native/status-bar": "3.10.2",
         "@ionic/storage": "2.0.1",
         "cordova-android": "^6.2.3",
+        "cordova-plugin-compat": "^1.0.0",
         "cordova-plugin-console": "^1.0.5",
         "cordova-plugin-device": "^1.1.4",
+        "cordova-plugin-geolocation": "^2.4.3",
         "cordova-plugin-googlemaps": "^1.4.1",
         "cordova-plugin-mauron85-background-geolocation": "^2.2.5",
         "cordova-plugin-nativegeocoder": "^1.0.2",
@@ -72,7 +75,8 @@
             "cordova-plugin-splashscreen": {},
             "cordova-plugin-statusbar": {},
             "cordova-plugin-whitelist": {},
-            "ionic-plugin-keyboard": {}
+            "ionic-plugin-keyboard": {},
+            "cordova-plugin-geolocation": {}
         },
         "platforms": [
             "android"
