@@ -18,13 +18,13 @@ export class RequestsProvider {
   getRequests(state,agentid){
     console.log(state);
     console.log(agentid);
-    return this.http.get('http://localhost:3000/getAssignedRequests/'+state+'/'+agentid).map(res=>res.json());
+    return this.http.get('http://54.174.46.232:3000/getAssignedRequests/'+state+'/'+agentid).map(res=>res.json());
   }
   rejectRequest(id:any, state:any, status: any){
-    return this.http.get('http://localhost:3000/updateRequest/'+id+'/'+state+'/'+status).map(res=>res.json());
+    return this.http.get('http://54.174.46.232:3000/updateRequest/'+id+'/'+state+'/'+status).map(res=>res.json());
   }
 
   updateRequest(id:any, state:any, status: any, remarks: any){
-    return this.http.get('http://localhost:3000/updateRequest/'+id+'/'+state+'/'+status+'/'+remarks).map(res=>res.json());
+    return this.http.get('http://54.174.46.232:3000/updateRequest/'+id+'/'+state+'/'+status+'/'+remarks).map(res=>res.json());
   }
 }

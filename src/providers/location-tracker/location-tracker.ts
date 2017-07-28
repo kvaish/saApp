@@ -3,6 +3,7 @@ import { BackgroundGeolocation } from '@ionic-native/background-geolocation';
 import { Geolocation, Geoposition } from '@ionic-native/geolocation';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/filter';
+import * as io from 'socket.io-client'
 
 /*
   Generated class for the LocationTrackerProvider provider.
@@ -16,17 +17,16 @@ export class LocationTrackerProvider {
   public watch: any;    
   public lat: number = 0;
   public lng: number = 0;
- 
+  socket = io('http://54.174.46.232:3000',{transports: ['websocket', 'polling', 'flashsocket']});
   constructor(public zone: NgZone, public backgroundGeolocation: BackgroundGeolocation, public geolocation: Geolocation) {
  
   }
  
-  startTracking() {
+  startTracking(agent) { 
     let config = {
       desiredAccuracy: 0,
-      stationaryRadius: 20,
-      distanceFilter: 10, 
-      debug: true,
+      stationaryRadius: 2,
+      distanceFilter: 1, 
       interval: 2000 
     };
   
@@ -65,7 +65,8 @@ export class LocationTrackerProvider {
       this.zone.run(() => {
         this.lat = position.coords.latitude;
         this.lng = position.coords.longitude;
-      });
+        this.socket.emit('agentlocation',{sa: agent, lat: this.lat, lng : this.lng})
+      })
     
     });
   }

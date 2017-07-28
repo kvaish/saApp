@@ -37,34 +37,42 @@
       <button ion-button icon-only (click)="logout()">
         <ion-icon name="log-out"></ion-icon>
       </button>
+
     </ion-buttons>
     
     
   </ion-navbar>
+ 
 </ion-header>
 
-<ion-content>
-  <div>
+<ion-content no-bounce>
+  <!--<div #map id="map"></div> -->
+   
     <ion-segment [(ngModel)]="view">
-      <ion-segment-button value="card">
-        Card View
-      </ion-segment-button>
       <ion-segment-button value="map">
         Map View
       </ion-segment-button>
+      <ion-segment-button value="card">
+        Card View
+      </ion-segment-button>
     </ion-segment>
-  </div>
+ 
+ 
 
   <div [ngSwitch]="view">
-    <ion-list *ngSwitchCase="'card'" item-content>
+    
+    <div class="mapp" [style.display]="view == 'map' ? 'block' : 'none'">
+      <div #map id="map">
+      </div>
+    </div>
+    <div *ngSwitchCase="'card'">
       <ion-card *ngFor="let request of requests ">
-        <img src="../../assets/images/map.png">
+        <img src="file:///android_asset/www/assets/images/map.png">
         <ion-item>
           <ion-icon name="calendar" item-left large ></ion-icon>
           <h2>{{request.date}}</h2>
           <p>{{request.status}}</p>
           <button ion-button icon-left clear item-end (click)="editRequest(request)">
-            <!--<ion-icon name="navigate"></ion-icon>-->
             Reject
           </button>
         </ion-item>
@@ -80,11 +88,6 @@
 
       </ion-card>
       
-    </ion-list>
-
-    <ion-list *ngSwitchCase="'map'">
-      <div #map id="map"></div>
-      
-    </ion-list>
+    </div>
   </div>
 </ion-content>

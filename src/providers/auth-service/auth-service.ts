@@ -21,7 +21,7 @@ export class AuthServiceProvider {
   register(newUser){
     var headers = new Headers;
     headers.append('Content-Type','application/json');
-    return this.http.post('http://localhost:3000/registerAgent',newUser,{headers:headers}).map(res=>res.json());
+    return this.http.post('http://54.174.46.232:3000/registerAgent',newUser,{headers:headers}).map(res=>res.json());
   }
 
   login(user){
@@ -29,7 +29,7 @@ export class AuthServiceProvider {
     var headers = new Headers;
     headers.append('Authorisation','application/json');
     headers.append('Content-Type','application/json');
-    return this.http.post('http://localhost:3000/loginAgent',user,{headers:headers}).map((res)=>res.json());
+    return this.http.post('http://54.174.46.232:3000/loginAgent',user,{headers:headers}).map((res)=>res.json());
   }
 
 

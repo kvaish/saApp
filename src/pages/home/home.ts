@@ -3,16 +3,19 @@ import { NavController,IonicPage,MenuController, ViewController, Platform, Nav, 
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 import { AuthServiceProvider } from '../../providers/auth-service/auth-service';
-import { AccountPage } from '../account/account';
-import { SettingsPage } from '../settings/settings';
+//import { AccountPage } from '../account/account';
+//import { SettingsPage } from '../settings/settings';
 import { Storage } from '@ionic/Storage';
 import { Diagnostic } from '@ionic-native/diagnostic';
 import { LocationAccuracy } from '@ionic-native/location-accuracy';
 import { MapServiceProvider } from '../../providers/map-service/map-service';
-import { GoogleMap } from '@ionic-native/google-maps';
+import { GoogleMap, GoogleMapsEvent, LatLng } from '@ionic-native/google-maps';
 import { RequestsProvider } from '../../providers/requests/requests';
 import { GeocoderServiceProvider } from '../../providers/geocoder-service/geocoder-service';
 import { LocationTrackerProvider } from '../../providers/location-tracker/location-tracker';
+
+
+declare var google:any
 
 @IonicPage() 
 
@@ -25,21 +28,30 @@ import { LocationTrackerProvider } from '../../providers/location-tracker/locati
 export class HomePage {
 
   @ViewChild(Nav) navMenu: Nav;
-  @ViewChild('map') mapElement: ElementRef;
+  @ViewChild('map') mapEle: ElementRef;
   view: any
   pages: Array<{title: string, component: any}>
-  map: GoogleMap;
-  requests: Array<{any}>;
+  requests: any;
+  map: any
+  agent:any
   constructor( private locationTrack: LocationTrackerProvider, private geocoder: GeocoderServiceProvider, private requestProvider: RequestsProvider, private mapService: MapServiceProvider, private viewCtrl: ViewController, private diagnostic: Diagnostic, private locationAccuracy: LocationAccuracy, private storage:Storage, private modalCtrl:ModalController, private toaster: ToastController, private alertCtrl: AlertController, private splashScreen: SplashScreen, private statusBar: StatusBar, private nav: NavController, private auth: AuthServiceProvider, private menu: MenuController, private platform: Platform) {}
 
-
+  ionViewWillEnter(){
+    if(this.view == 'card'){
+      //this.map.setClickable(false)
+    }
+    else{
+      //this.map.setClickable(true)
+    }
+  }
   ngOnInit() {
+    this.view = 'map'
     this.locationAccuracy.canRequest().then((canRequest: boolean) => {
       if(canRequest){
         this.locationAccuracy.request(this.locationAccuracy.REQUEST_PRIORITY_HIGH_ACCURACY).then(
              () => {
                //alert('Request successful');
-               
+               this.start()
             },
         error =>{
             console.error("Request failed");
@@ -55,23 +67,28 @@ export class HomePage {
         });
       }
     });
-    this.map = this.mapService.loadMap();
+    this.map = this.mapService.loadMap(this.mapEle.nativeElement);
+    
     this.storage.get('agent').then(name=>{
+      this.agent = name
       this.requestProvider.getRequests("Active",name).subscribe(requests=>{
         this.requests=requests;
         for(var request in this.requests) { 
+          //console.log(this.requests[request].address.geometry.coordinates.lat,this.requests[request].address.geometry.coordinates.lng)
           this.getLocation(this.requests[request]) 
           this.mapService.addmarker(this.requests[request])
+          this.mapService.map.fitBounds(this.mapService.bounds);
         }  
       });     
     });
     
     this.pages = [
-        { title: 'Settings', component: SettingsPage },
-        { title: 'Account', component: AccountPage }
+        { title: 'Settings', component: 'SettingsPage' },
+        { title: 'Account', component: 'AccountPage' }
       ];
-    this.view = 'card'
   }
+
+  
 
   public openPage(page) {
     // Reset the content nav to have just this page
@@ -89,7 +106,7 @@ export class HomePage {
 
   logout(){
     this.storage.clear().then(() => {
-      console.log('Keys have been cleared');
+      //console.log('Keys have been cleared');
     });
     this.nav.setRoot('LoginPage');
     
@@ -133,11 +150,18 @@ export class HomePage {
   }
 
   showRequestDetails(request){
-
+    let start = new LatLng(this.locationTrack.lat, this.locationTrack.lng)
+    //start = new LatLng(28.535516, 77.391026)
+    let end = new LatLng(request.address.geometry.coordinates.lat,request.address.geometry.coordinates.lng)
+    console.log(start,end)
+    this.mapService.calculateAndDisplayRoute(start, end)
+    this.view = 'map'
   }
   
   start(){
-    this.locationTrack.startTracking();
+    this.storage.get('agent').then((name)=>{
+      this.locationTrack.startTracking(name)
+    })
   }
  
   stop(){
