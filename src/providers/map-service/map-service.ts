@@ -16,12 +16,13 @@ export class MapServiceProvider {
 
   map: any;
   markers = []
+  directionMarker = []
   bounds = new google.maps.LatLngBounds()
   lastOpenedInfoWindow:any;
   centerControlDiv
   centerControl
   directionsService = new google.maps.DirectionsService;
-  public  directionsDisplay = new google.maps.DirectionsRenderer;
+  public  directionsDisplay = new google.maps.DirectionsRenderer({ polylineOptions: { strokeColor: "#000" } });
 
   constructor(public http: Http, public geocodeService: GeocoderServiceProvider) {
   }
@@ -47,6 +48,7 @@ export class MapServiceProvider {
     this.centerControl = new this.goBack(this.centerControlDiv, this.map);
     this.centerControlDiv.index = 1;
     this.directionsDisplay.setMap(this.map);
+    this.directionsDisplay.setOptions({ suppressMarkers: true })
     console.log(this.directionsDisplay);
    
     
@@ -94,7 +96,8 @@ export class MapServiceProvider {
         'zoom':17,
         'map':this.map,
         'draggable':false,
-        'title':title
+        'title':title,
+        'icon': '../../assets/images/icon-green.png'
       });
 
       this.bounds.extend(marker.position);
@@ -140,15 +143,20 @@ export class MapServiceProvider {
       provideRouteAlternatives: true
     }, (response, status) => {
       if (status === 'OK') {
-        this.clearMarkers()
+        this.clearMarkers(this.markers)
         this.map.controls[google.maps.ControlPosition.TOP_RIGHT].push(this.centerControlDiv);
         this.directionsDisplay.setMap(this.map)
         this.directionsDisplay.setDirections(response);
+        var leg = response.routes[ 0 ].legs[ 0 ];
+        this.makeMarker( leg.start_location, '../../assets/images/icon-pink.png', "You" );
+        this.makeMarker( leg.end_location, '../../assets/images/icon-green.png', 'Service' );
         this.centerControlDiv.addEventListener('click', function(){
-          console.log(self.directionsDisplay);
+          console.log(self.directionMarker);
+          self.clearMarkers(self.directionMarker);
           self.map.controls[google.maps.ControlPosition.TOP_RIGHT].clear()
           self.directionsDisplay.setMap(null);
-          self.setMapOnAll(self.map);
+          
+          self.setMapOnAll(self.map, self.markers);
         });
       } else {
         window.alert('Directions request failed due to ' + status);
@@ -157,15 +165,24 @@ export class MapServiceProvider {
    
   }
 
-  setMapOnAll(map) {
-    for (var i = 0; i < this.markers.length; i++) {
-      this.markers[i].setMap(map);
+  setMapOnAll(map, markers) {
+    for (var i = 0; i < markers.length; i++) {
+      markers[i].setMap(map);
     }
   }
 
-  clearMarkers() {
-    this.setMapOnAll(null);
+  clearMarkers(markers) {
+    this.setMapOnAll(null, markers);
   }
 
+   makeMarker( position, icon, title ) {
+    let dmarker = new google.maps.Marker({
+      position: position,
+      map: this.map,
+      icon: icon,
+      title: title
+    });
+    this.directionMarker.push(dmarker)
+  }
 
 }

@@ -51,7 +51,7 @@ export class HomePage {
         this.locationAccuracy.request(this.locationAccuracy.REQUEST_PRIORITY_HIGH_ACCURACY).then(
              () => {
                //alert('Request successful');
-               this.start()
+              
             },
         error =>{
             console.error("Request failed");
@@ -71,6 +71,7 @@ export class HomePage {
     
     this.storage.get('agent').then(name=>{
       this.agent = name
+      this.start()
       this.requestProvider.getRequests("Active",name).subscribe(requests=>{
         this.requests=requests;
         for(var request in this.requests) { 
@@ -151,7 +152,7 @@ export class HomePage {
 
   showRequestDetails(request){
     let start = new LatLng(this.locationTrack.lat, this.locationTrack.lng)
-    //start = new LatLng(28.535516, 77.391026)
+    start = new LatLng(28.535516, 77.391026)
     let end = new LatLng(request.address.geometry.coordinates.lat,request.address.geometry.coordinates.lng)
     console.log(start,end)
     this.mapService.calculateAndDisplayRoute(start, end)
